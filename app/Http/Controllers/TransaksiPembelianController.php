@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\TransaksiPembelian;
+use App\Models\Barang;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
+use App\Models\TransaksiPembelian;
 
 class TransaksiPembelianController extends Controller
 {
@@ -17,24 +18,30 @@ class TransaksiPembelianController extends Controller
 
     public function create()
     {
+        $barang = Barang::all();
         $vendor = Vendor::all();
-        return view('pembelian.pembelian-create', compact('vendor'));
+        return view('pembelian.pembelian-create', compact('vendor','barang'));
     }
 
 
     public function store(Request $request)
     {
 
-        // $request->validate($request->all());
+        // dd($request->all());
+        $barang = Barang::find($request->id_barang);
 
+        // dd($barang);
+        // $request->validate($request->all());
+        $total = $request->qty * $barang->harga;
         // dd($barang);
         TransaksiPembelian::create([
             'no_pembelian' => $request->no_pembelian,
             'vendor_id' => $request->vendor_id,
-            'harga' => $request->harga,
+            'barang_id' => $request->id_barang,
+            'qty_brg' => $request->qty,
             'jenis_pembayaran' => $request->jenis_pembayaran,
             'tanggal_pembelian' => $request->tanggal_pembelian,
-            'total_pembelian' => 0,
+            'total_pembelian' => $total,
 
 
         ]);
@@ -52,7 +59,8 @@ class TransaksiPembelianController extends Controller
         $pembelian = TransaksiPembelian::find($id);
         // dd($pembelian);
         $vendor = Vendor::all();
-        return view('pembelian.pembelian-edit', compact('pembelian', 'vendor'));
+        $barang = Barang::all();
+        return view('pembelian.pembelian-edit', compact('pembelian', 'vendor','barang'));
     }
 
 
@@ -60,15 +68,21 @@ class TransaksiPembelianController extends Controller
     {
 
 
+        $barang = Barang::find($request->id_barang);
 
+        // dd($barang);
+        // $request->validate($request->all());
+        $total = $request->qty * $barang->harga;
 
         $pembelian = TransaksiPembelian::find($id);
 
         $pembelian->no_pembelian = $request->no_pembelian;
         $pembelian->vendor_id = $request->vendor_id;
+        $pembelian->barang_id = $request->id_barang;
         $pembelian->tanggal_pembelian = $request->tanggal_pembelian;
-        $pembelian->harga = $request->harga;
         $pembelian->jenis_pembayaran = $request->jenis_pembayaran;
+        $pembelian->barang_id = $request->id_barang;
+        $pembelian->total_pembelian = $total;
 
         $pembelian->save();
 

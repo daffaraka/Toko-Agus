@@ -43,14 +43,28 @@
                                     @endforeach
                                 </select>
                             </div>
+
+                            <div class="form-group">
+                                <label for="">Barang</label>
+                                <select type="text" name="id_barang" class="form-control" required>
+                                    @foreach ($barang as $selectBarang)
+                                        <option value="{{ $selectBarang->id_barang }}">{{ $selectBarang->nama_barang }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="">Qty</label>
+                                <input type="number" name="qty" class="form-control" required value="{{$pembelian->qty_brg}}">
+                            </div>
                             {{-- <div class="form-group">
                                 <label for="">Jenis Pembayaran</label>
                                 <input type="text" name="no_penjualan" class="form-control">
                             </div> --}}
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label for="">Harga</label>
                                 <input type="number" name="harga" class="form-control" required value="{{$pembelian->harga}}">
-                            </div>
+                            </div> --}}
                             <div class="form-group">
                                 <label for="">Tanggal Pembelian</label>
                                 <input type="date" name="tanggal_pembelian" class="form-control" required value="{{$pembelian->tanggal_pembelian}}">

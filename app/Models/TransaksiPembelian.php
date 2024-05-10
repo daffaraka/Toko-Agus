@@ -14,10 +14,12 @@ class TransaksiPembelian extends Model
     [
         'no_pembelian',
         'vendor_id',
+        'barang_id',
         'tanggal_pembelian',
-        'harga',
+        'qty_brg',
         'total_pembelian',
         'jenis_pembayaran',
+
     ];
 
 

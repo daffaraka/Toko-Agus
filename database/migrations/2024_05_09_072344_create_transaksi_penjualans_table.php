@@ -15,8 +15,8 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('no_penjualan');
             $table->unsignedBigInteger('pelanggan_id');
-            $table->string('kasir');
             $table->unsignedBigInteger('barang_id');
+            $table->string('kasir');
             $table->date('tanggal_penjualan');
             $table->bigInteger('total');
             $table->integer('qty_brg');

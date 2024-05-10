@@ -58,8 +58,10 @@
                                         <th>#</th>
                                         <th>No Pembelian</th>
                                         <th>Vendor</th>
+                                        <th>Barang</th>
                                         <th>Jenis Pembayaran</th>
                                         <th>Tanggal Pembelian</th>
+                                        <th>Qty</th>
                                         <th>Harga</th>
                                         <th>Total</th>
 
@@ -73,9 +75,11 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $data->no_pembelian }}</td>
                                             <td>{{ $data->vendor->nama_vendor }}</td>
+                                            <td>{{ $data->barang->nama_barang }}</td>
                                             <td>{{ $data->jenis_pembayaran }}</td>
                                             <td>{{ $data->tanggal_pembelian }}</td>
-                                            <td>{{ $data->harga }}</td>
+                                            <td>{{ $data->qty_brg }}</td>
+                                            <td>{{ $data->barang->harga }}</td>
                                             <td>{{ $data->total_pembelian }}</td>
                                             <td>
                                                 <a href="{{route('pembelian.edit',$data->id)}}" class="btn btn-primary">Edit</a>
