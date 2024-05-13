@@ -36,10 +36,10 @@
                                 <input type="text" name="no_pembelian" class="form-control" required value="{{$pembelian->no_pembelian}}">
                             </div>
                             <div class="form-group">
-                                <label for="">Vendor</label>
-                                <select type="text" name="vendor_id" class="form-control">
-                                    @foreach ($vendor as $select)
-                                        <option value="{{ $select->id_vendor }}">{{ $select->nama_vendor }}</option>
+                                <label for="">Supplier</label>
+                                <select type="text" name="supplier_id" class="form-control">
+                                    @foreach ($supplier as $select)
+                                        <option value="{{ $select->id_supplier }}">{{ $select->nama_supplier }}</option>
                                     @endforeach
                                 </select>
                             </div>

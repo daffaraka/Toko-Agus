@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('transaksi_pembelians', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('no_pembelian');
-            $table->unsignedBigInteger('vendor_id');
+            $table->unsignedBigInteger('supplier_id');
             $table->unsignedBigInteger('barang_id');
             $table->date('tanggal_pembelian');
             $table->integer('qty_brg');
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('jenis_pembayaran');
             $table->timestamps();
 
-            $table->foreign('vendor_id')->references('id_vendor')->on('vendor')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('supplier_id')->references('id_supplier')->on('supplier')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('barang_id')->references('id_barang')->on('barang')->onDelete('cascade')->onUpdate('cascade');
 
         });

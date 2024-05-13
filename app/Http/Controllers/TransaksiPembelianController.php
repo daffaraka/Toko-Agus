@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barang;
+use App\Models\Supplier;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
 use App\Models\TransaksiPembelian;
@@ -11,7 +12,7 @@ class TransaksiPembelianController extends Controller
 {
     public function index()
     {
-        $pembelian = TransaksiPembelian::with('vendor')->get();
+        $pembelian = TransaksiPembelian::with('supplier')->get();
         return view('pembelian.pembelian-index', compact('pembelian'));
     }
 
@@ -19,8 +20,8 @@ class TransaksiPembelianController extends Controller
     public function create()
     {
         $barang = Barang::all();
-        $vendor = Vendor::all();
-        return view('pembelian.pembelian-create', compact('vendor','barang'));
+        $supplier = Supplier::all();
+        return view('pembelian.pembelian-create', compact('supplier','barang'));
     }
 
 
@@ -36,7 +37,7 @@ class TransaksiPembelianController extends Controller
         // dd($barang);
         TransaksiPembelian::create([
             'no_pembelian' => $request->no_pembelian,
-            'vendor_id' => $request->vendor_id,
+            'supplier_id' => $request->supplier_id,
             'barang_id' => $request->id_barang,
             'qty_brg' => $request->qty,
             'jenis_pembayaran' => $request->jenis_pembayaran,
@@ -58,9 +59,9 @@ class TransaksiPembelianController extends Controller
     {
         $pembelian = TransaksiPembelian::find($id);
         // dd($pembelian);
-        $vendor = Vendor::all();
+        $supplier = Supplier::all();
         $barang = Barang::all();
-        return view('pembelian.pembelian-edit', compact('pembelian', 'vendor','barang'));
+        return view('pembelian.pembelian-edit', compact('pembelian', 'supplier','barang'));
     }
 
 
@@ -77,7 +78,7 @@ class TransaksiPembelianController extends Controller
         $pembelian = TransaksiPembelian::find($id);
 
         $pembelian->no_pembelian = $request->no_pembelian;
-        $pembelian->vendor_id = $request->vendor_id;
+        $pembelian->supplier_id = $request->supplier_id;
         $pembelian->barang_id = $request->id_barang;
         $pembelian->tanggal_pembelian = $request->tanggal_pembelian;
         $pembelian->jenis_pembayaran = $request->jenis_pembayaran;

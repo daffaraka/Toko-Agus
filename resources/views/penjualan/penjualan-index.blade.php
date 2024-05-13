@@ -33,7 +33,7 @@
                         <h6 class="m-0 font-weight-bold text-danger">Penjualan</h6>
 
                         <!-- Tombol Tambah Data -->
-                        <a href="{{ route('pembelian.create') }}"
+                        <a href="{{ route('penjualan.create') }}"
                             class="btn btn-danger btn-icon-split btn-sm tampilmodaltambah" data-toogle="modal"
                             data-target="#ubahModal">
                             <span class="icon text-white-50">

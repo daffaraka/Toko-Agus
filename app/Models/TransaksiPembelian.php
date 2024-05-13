@@ -13,7 +13,7 @@ class TransaksiPembelian extends Model
     protected $fillable =
     [
         'no_pembelian',
-        'vendor_id',
+        'supplier_id',
         'barang_id',
         'tanggal_pembelian',
         'qty_brg',
@@ -28,9 +28,9 @@ class TransaksiPembelian extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function vendor()
+    public function supplier()
     {
-        return $this->belongsTo(Vendor::class,'vendor_id');
+        return $this->belongsTo(Supplier::class,'supplier_id');
     }
 
     public function barang()

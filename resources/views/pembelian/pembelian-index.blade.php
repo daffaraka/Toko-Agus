@@ -57,7 +57,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>No Pembelian</th>
-                                        <th>Vendor</th>
+                                        <th>Supplier</th>
                                         <th>Barang</th>
                                         <th>Jenis Pembayaran</th>
                                         <th>Tanggal Pembelian</th>
@@ -74,7 +74,7 @@
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $data->no_pembelian }}</td>
-                                            <td>{{ $data->vendor->nama_vendor }}</td>
+                                            <td>{{ $data->supplier->nama_supplier }}</td>
                                             <td>{{ $data->barang->nama_barang }}</td>
                                             <td>{{ $data->jenis_pembayaran }}</td>
                                             <td>{{ $data->tanggal_pembelian }}</td>
