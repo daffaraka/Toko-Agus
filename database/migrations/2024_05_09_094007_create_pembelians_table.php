@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('tanggal_pembelian');
             $table->integer('qty_brg');
             $table->bigInteger('total_pembelian');
+            $table->bigInteger('sisa_pembayaran')->default(0);
             $table->string('jenis_pembayaran');
             $table->timestamps();
 

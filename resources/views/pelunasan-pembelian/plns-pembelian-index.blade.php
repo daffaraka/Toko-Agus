@@ -30,17 +30,9 @@
 
                     <!-- Card Header - Dropdown -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-danger">Penjualan</h6>
+                        <h6 class="m-0 font-weight-bold text-danger">Pelunasan Pembelian</h6>
 
                         <!-- Tombol Tambah Data -->
-                        <a href="{{ route('penjualan.create') }}"
-                            class="btn btn-danger btn-icon-split btn-sm tampilmodaltambah" data-toogle="modal"
-                            data-target="#ubahModal">
-                            <span class="icon text-white-50">
-                                <i class="fas fa-plus"></i>
-                            </span>
-                            <span class="text">Tambah Data Penjualan</span>
-                        </a>
                         <!-- Akghir Tombol Tambah Data -->
 
                     </div>
@@ -56,36 +48,44 @@
                                 <thead class="thead-dark">
                                     <tr>
                                         <th>#</th>
-                                        <th>No Penjualan</th>
-                                        <th>Nama Pelanggan</th>
-                                        <th>Kasir</th>
-                                        <th>Nama Barang</th>
-                                        <th>Harga Barang</th>
+                                        <th>No Pembelian</th>
+                                        <th>Supplier</th>
+                                        <th>Barang</th>
+                                        <th>Jenis Pembayaran</th>
+                                        {{-- <th>Tanggal Pembelian</th> --}}
                                         <th>Qty</th>
+                                        <th>Harga</th>
                                         <th>Total</th>
+                                        <th>Sisa Pembayaran</th>
+
+
                                         {{-- <th style="text-align: center">Status</th> --}}
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($penjualan as $data)
+                                    @foreach ($plnPembelian as $data)
                                         <tr>
-                                            <td>{{ $data->tanggal_penjualan }}</td>
-                                            <td>{{ $data->no_penjualan }}</td>
-                                            <td>{{ $data->pelanggan->nama_pelanggan }}</td>
-                                            <td>{{ $data->kasir }}</td>
+                                            <td>{{ $data->tanggal_pembelian }}</td>
+                                            <td>{{ $data->no_pembelian }}</td>
+                                            <td>{{ $data->supplier->nama_supplier }}</td>
                                             <td>{{ $data->barang->nama_barang }}</td>
-                                            <td>Rp. {{ number_format($data->barang->harga) }}</td>
+                                            <td> <button class="btn btn-info" >{{ $data->jenis_pembayaran }}</button> </td>
+                                            {{-- <td>{{ $data->tanggal_pembelian }}</td> --}}
                                             <td>{{ $data->qty_brg }}</td>
-                                            <td>Rp. {{number_format($data->total)  }}</td>
+                                            <td>{{ $data->barang->harga }}</td>
+                                            <td>{{ $data->total_pembelian }}</td>
+                                            <td>{{ $data->sisa_pembayaran }}</td>
+
                                             <td>
                                                 <div class="d-flex">
-                                                    <a href="{{route('penjualan.edit',$data->id)}}" class="btn btn-primary mr-1">Edit</a>
-                                                    <a href="{{route('penjualan.delete',$data->id)}}" class="btn btn-warning">Delete</a>
-                                                </div>
+                                                    <a href="{{ route('pelunasanPembelian.pembayaran', $data->id) }}"
+                                                        class="btn btn-danger mr-1">Pelunasan</a>
 
 
                                             </td>
+
+
                                         </tr>
                                     @endforeach
 

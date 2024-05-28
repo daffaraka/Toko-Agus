@@ -18,7 +18,8 @@ class TransaksiPenjualan extends Model
         'barang_id',
         'tanggal_penjualan',
         'total',
-        'qty_brg'
+        'qty_brg',
+        'jenis_pembayaran',
     ];
 
 

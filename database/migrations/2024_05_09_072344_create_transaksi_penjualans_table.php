@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('barang_id');
             $table->string('kasir');
             $table->date('tanggal_penjualan');
+            $table->string('jenis_pembayaran');
             $table->bigInteger('total');
             $table->integer('qty_brg');
 

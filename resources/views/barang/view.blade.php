@@ -4,16 +4,16 @@
     <!-- Begin Page Content -->
     <div class="container-fluid">
 
-    @if(isset($status_hapus))
-        <script>
-            Swal.fire({
-                title: 'Berhasil!',
-                text: 'Hapus Data Berhasil',
-                icon: 'success',
-                confirmButtonText: 'Ok'
-            });
-        </script>
-@endif
+        @if (isset($status_hapus))
+            <script>
+                Swal.fire({
+                    title: 'Berhasil!',
+                    text: 'Hapus Data Berhasil',
+                    icon: 'success',
+                    confirmButtonText: 'Ok'
+                });
+            </script>
+        @endif
 
         <!-- Alert success -->
         @if ($message = Session::get('success'))
@@ -53,7 +53,6 @@
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead class="thead-dark">
                                     <tr>
-                                    <th>Id Barang</th>
                                         <th>Nama Barang</th>
                                         <th>Jumlah</th>
                                         <th>Stok</th>
@@ -65,7 +64,6 @@
                                 <tbody>
                                     @foreach ($barang as $p)
                                         <tr>
-                                        <td>{{ $p->id_barang }}</td>
                                             <td>{{ $p->nama_barang }}</td>
                                             <td>{{ $p->jumlah }}</td>
                                             <td>{{ $p->stok }}</td>

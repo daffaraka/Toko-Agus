@@ -51,17 +51,32 @@
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePenjualan"
+                    aria-expanded="true" aria-controls="collapsePenjualan">
                     <i class="fas fa-fw fa-list"></i>
-                    <span>Transaksi</span>
+                    <span>Penjualan</span>
                 </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                <div id="collapsePenjualan" class="collapse" aria-labelledby="headingUtilities"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="{{ route('penjualan.index') }}">Penjualan</a>
-                        <a class="collapse-item" href="{{ route('pembelian.index') }}">Pembelian</a>
                         <a class="collapse-item" href="{{ url('pelunasan') }}">Pelunasan</a>
+
+                    </div>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePembelian"
+                    aria-expanded="true" aria-controls="collapsePembelian">
+                    <i class="fas fa-fw fa-list"></i>
+                    <span>Pembelian</span>
+                </a>
+                <div id="collapsePembelian" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="{{ route('pembelian.index') }}">Pembelian</a>
+                        <a class="collapse-item" href="{{ route('pelunasanPembelian.index') }}">Pelunasan Pembelian</a>
 
                     </div>
                 </div>

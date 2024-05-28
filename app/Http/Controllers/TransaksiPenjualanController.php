@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Barang;
 use App\Models\Pelanggan;
 use Illuminate\Http\Request;
@@ -13,7 +14,7 @@ class TransaksiPenjualanController extends Controller
 
     public function index()
     {
-        $penjualan = TransaksiPenjualan::with(['pelanggan','barang'])->get();
+        $penjualan = TransaksiPenjualan::with(['pelanggan', 'barang'])->get();
 
         return view('penjualan.penjualan-index', compact('penjualan'));
     }
@@ -36,17 +37,26 @@ class TransaksiPenjualanController extends Controller
 
         // dd($barang);
         $total = $request->qty * $barang->harga;
-        TransaksiPenjualan::create([
+
+
+
+        $transaksi =  TransaksiPenjualan::create([
             'no_penjualan' => $request->no_penjualan,
             'pelanggan_id' => $request->id_pelanggan,
             'kasir' => $request->kasir,
             'barang_id' => $request->id_barang,
-            'tanggal_penjualan' => $request->tanggal_penjualan,
+            'tanggal_penjualan' => Carbon::now()->toDateString(),
+            'jenis_pembayaran' => $request->jenis_pembayaran,
             'qty_brg' => $request->qty,
             'total' => $total,
 
 
         ]);
+
+        if ($transaksi) {
+            $barang->stok -= $request->qty;
+            $barang->save();
+        }
 
         return redirect()->route('penjualan.index')->with('success', 'Transaksi Berhasil di Input');
     }
@@ -62,7 +72,7 @@ class TransaksiPenjualanController extends Controller
         // dd($penjualan);
         $pelanggan = Pelanggan::all();
         $barang = Barang::all();
-        return view('penjualan.penjualan-edit', compact('penjualan','pelanggan', 'barang'));
+        return view('penjualan.penjualan-edit', compact('penjualan', 'pelanggan', 'barang'));
     }
 
 
@@ -80,10 +90,15 @@ class TransaksiPenjualanController extends Controller
         $penjualan->kasir = $request->kasir;
         $penjualan->barang_id = $request->id_barang;
         $penjualan->tanggal_penjualan = $request->tanggal_penjualan;
+        $penjualan->jenis_pembayaran = $request->jenis_pembayaran;
         $penjualan->total = $total;
         $penjualan->qty_brg = $request->qty;
         $penjualan->save();
 
+        if ($penjualan->save()) {
+            $barang->stok -= $request->qty;
+            $barang->save();
+        }
         return redirect()->route('penjualan.index')->with('success', 'Transaksi Berhasil di edit');
     }
 

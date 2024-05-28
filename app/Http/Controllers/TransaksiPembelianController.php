@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Barang;
-use App\Models\Supplier;
 use App\Models\Vendor;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 use App\Models\TransaksiPembelian;
 
@@ -34,18 +35,32 @@ class TransaksiPembelianController extends Controller
         // dd($barang);
         // $request->validate($request->all());
         $total = $request->qty * $barang->harga;
+
+        $sisa_pembayaran = 0;
+
+        if($request->jenis_pembayaran == 'Cicil') {
+            $sisa_pembayaran = $total / 2;
+        }
+
         // dd($barang);
-        TransaksiPembelian::create([
+        $transaksi =   TransaksiPembelian::create([
             'no_pembelian' => $request->no_pembelian,
             'supplier_id' => $request->supplier_id,
             'barang_id' => $request->id_barang,
             'qty_brg' => $request->qty,
             'jenis_pembayaran' => $request->jenis_pembayaran,
-            'tanggal_pembelian' => $request->tanggal_pembelian,
+            'sisa_pembayaran' => $sisa_pembayaran,
+            'tanggal_pembelian' =>Carbon::now()->toDateString(),
             'total_pembelian' => $total,
 
 
         ]);
+
+        if($transaksi){
+            $barang->stok += $request->qty;
+            $barang->save();
+
+        }
 
         return redirect()->route('pembelian.index')->with('success', 'Transaksi Berhasil di Input');
     }
@@ -75,6 +90,13 @@ class TransaksiPembelianController extends Controller
         // $request->validate($request->all());
         $total = $request->qty * $barang->harga;
 
+        $sisa_pembayaran = 0;
+
+        if($request->jenis_pembayaran == 'Cicil') {
+            $sisa_pembayaran = $total / 2;
+        }
+
+        dd($sisa_pembayaran);
         $pembelian = TransaksiPembelian::find($id);
 
         $pembelian->no_pembelian = $request->no_pembelian;

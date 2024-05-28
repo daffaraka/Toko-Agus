@@ -60,10 +60,10 @@
                                         <th>Supplier</th>
                                         <th>Barang</th>
                                         <th>Jenis Pembayaran</th>
-                                        <th>Tanggal Pembelian</th>
                                         <th>Qty</th>
                                         <th>Harga</th>
                                         <th>Total</th>
+                                        <th>Sisa Pembayaran</th>
 
                                         {{-- <th style="text-align: center">Status</th> --}}
                                         <th>Action</th>
@@ -72,18 +72,22 @@
                                 <tbody>
                                     @foreach ($pembelian as $data)
                                         <tr>
-                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $data->tanggal_pembelian }}</td>
                                             <td>{{ $data->no_pembelian }}</td>
                                             <td>{{ $data->supplier->nama_supplier }}</td>
                                             <td>{{ $data->barang->nama_barang }}</td>
                                             <td>{{ $data->jenis_pembayaran }}</td>
-                                            <td>{{ $data->tanggal_pembelian }}</td>
+                                            {{-- <td>{{ $data->tanggal_pembelian }}</td> --}}
                                             <td>{{ $data->qty_brg }}</td>
                                             <td>{{ $data->barang->harga }}</td>
                                             <td>{{ $data->total_pembelian }}</td>
+                                            <td>{{ $data->sisa_pembayaran}}</td>
                                             <td>
-                                                <a href="{{route('pembelian.edit',$data->id)}}" class="btn btn-primary">Edit</a>
-                                                <a href="{{route('pembelian.delete',$data->id)}}" class="btn btn-warning">Delete</a>
+                                                <div class="d-flex">
+                                                    <a href="{{route('pembelian.edit',$data->id)}}" class="btn btn-primary mr-1">Edit</a>
+                                                    <a href="{{route('pembelian.delete',$data->id)}}" class="btn btn-warning">Delete</a>
+                                                </div>
+
 
                                             </td>
                                         </tr>

@@ -42,7 +42,6 @@
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead class="thead-dark">
                                     <tr>
-                                    <th>Id Supplier</th>
                                         <th>Nama Supplier</th>
                                         <th>No Telepon</th>
                                         <th>Alamat Supplier</th>
@@ -52,7 +51,6 @@
                                 <tbody>
                                     @foreach ($supplier as $p)
                                         <tr>
-                                        <td>{{ $p->id_supplier }}</td>
                                             <td>{{ $p->nama_supplier }}</td>
                                             <td>{{ $p->no_telp }}</td>
                                             <td>{{ $p->alamat_supplier }}</td>

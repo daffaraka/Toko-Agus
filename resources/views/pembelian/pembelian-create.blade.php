@@ -64,15 +64,12 @@
                                 <label for="">Harga</label>
                                 <input type="number" name="harga" class="form-control" required>
                             </div> --}}
-                            <div class="form-group">
-                                <label for="">Tanggal Pembelian</label>
-                                <input type="date" name="tanggal_pembelian" class="form-control" required>
-                            </div>
+
                             <div class="form-group">
                                 <label for="">Jenis Pembayaran</label>
                                 <select type="text" name="jenis_pembayaran" class="form-control">
-                                    <option value="Cash">Cash</option>
-                                    <option value="Transfer">Transfer</option>
+                                    <option value="Lunas">Lunas</option>
+                                    <option value="Cicil">Cicil</option>
                                 </select>
                             </div>
 

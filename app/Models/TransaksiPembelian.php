@@ -18,6 +18,7 @@ class TransaksiPembelian extends Model
         'tanggal_pembelian',
         'qty_brg',
         'total_pembelian',
+        'sisa_pembayaran',
         'jenis_pembayaran',
 
     ];

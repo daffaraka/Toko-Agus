@@ -18,7 +18,7 @@
 
                     <!-- Card Header - Dropdown -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-danger">Tambah Data Penjualan</h6>
+                        <h6 class="m-0 font-weight-bold text-danger">Tambah Data Pembelian</h6>
 
                         <!-- Tombol Tambah Data -->
 
@@ -27,29 +27,17 @@
                     </div>
                     <!-- Card Body -->
                     <div class="card-body">
-                        <form action="{{ route('penjualan.store') }}" method="POST">
+                        <form action="{{ route('pelunasanPembelian.store') }}" method="POST">
 
                             @csrf
 
                             <div class="form-group">
-                                <label for="">No Penjualan</label>
-                                <input type="text" name="no_penjualan" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="">Pelanggan</label>
-                                <select type="text" name="id_pelanggan" class="form-control">
-                                    @foreach ($pelanggan as $select)
-                                        <option value="{{ $select->id }}">{{ $select->nama_pelanggan }}</option>
+                                <label for="">Pembelian (Yang belum lunas) </label>
+                                <select type="text" name="pembelian_id" class="form-control">
+                                    @foreach ($pembelian as $select)
+                                        <option value="{{ $select->id }}">{{ $select->no_pembelian }}</option>
                                     @endforeach
                                 </select>
-                            </div>
-                            {{-- <div class="form-group">
-                                <label for="">Jenis Pembayaran</label>
-                                <input type="text" name="no_penjualan" class="form-control">
-                            </div> --}}
-                            <div class="form-group">
-                                <label for="">Kasir</label>
-                                <input type="text" name="kasir" class="form-control" required>
                             </div>
                             <div class="form-group">
                                 <label for="">Barang</label>
@@ -65,13 +53,6 @@
                                 <input type="number" name="qty" class="form-control" required>
                             </div>
 
-                            <div class="form-group">
-                                <label for="">Jenis Pembayaran</label>
-                                <select type="text" name="jenis_pembayaran" class="form-control">
-                                    <option value="Lunas">Lunas</option>
-                                    <option value="Cicil">Cicil</option>
-                                </select>
-                            </div>
 
                             <button class="btn btn-danger">Tambahkan </button>
                         </form>
