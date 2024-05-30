@@ -19,7 +19,8 @@ return new class extends Migration
             $table->string('kasir');
             $table->date('tanggal_penjualan');
             $table->string('jenis_pembayaran');
-            $table->bigInteger('total');
+            $table->bigInteger('total_penjualan');
+            $table->bigInteger('sisa_pembayaran')->default(0);
             $table->integer('qty_brg');
 
             $table->foreign('pelanggan_id')->references('id')->on('pelanggan')->onDelete('cascade')->onUpdate('cascade');

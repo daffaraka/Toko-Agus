@@ -60,7 +60,7 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="{{ route('penjualan.index') }}">Penjualan</a>
-                        <a class="collapse-item" href="{{ url('pelunasan') }}">Pelunasan</a>
+                        <a class="collapse-item" href="{{ route('pelunasanPenjualan.index') }}">Pelunasan Penjualan</a>
 
                     </div>
                 </div>

@@ -3,10 +3,12 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\{
     PelunasanPembelianController,
+    PelunasanPenjualanController,
     PenjualanController,
     TransaksiPembelianController,
     TransaksiPenjualanController,
 };
+use App\Models\PelunasanPembelian;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -91,6 +93,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('pelunasan-pembelian/update/{id}', [PelunasanPembelianController::class, 'update'])->name('pelunasanPembelian.update');
     Route::get('pelunasan-pembelian/delete/{id}', [PelunasanPembelianController::class, 'destroy'])->name('pelunasanPembelian.delete');
+
+
+
+    Route::get('pelunasan-penjualan', [PelunasanPenjualanController::class, 'index'])->name('pelunasanPenjualan.index');
+    Route::post('pelunasan-penjualan/store', [PelunasanPenjualanController::class, 'store'])->name('pelunasanPenjualan.store');
+    Route::get('pelunasan-penjualan/pembayaran/{id}', [PelunasanPenjualanController::class, 'pembayaran'])->name('pelunasanPenjualan.pembayaran');
 });
 
 // Route::get('/penjualan', [App\Http\Controllers\PenjualanController::class, 'index'])->name('penjualan.index');

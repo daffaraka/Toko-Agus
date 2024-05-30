@@ -72,8 +72,8 @@
                             <div class="form-group">
                                 <label for="">Jenis Pembayaran</label>
                                 <select type="text" name="jenis_pembayaran" class="form-control">
-                                    <option value="Cash">Cash</option>
-                                    <option value="Transfer">Transfer</option>
+                                    <option value="Cicil">Cicil</option>
+                                    <option value="Lunas">Lunas</option>
                                 </select>
                             </div>
 

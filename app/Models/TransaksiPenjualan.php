@@ -20,6 +20,9 @@ class TransaksiPenjualan extends Model
         'total',
         'qty_brg',
         'jenis_pembayaran',
+        'total_penjualan',
+        'sisa_pembayaran',
+
     ];
 
 

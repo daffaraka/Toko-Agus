@@ -38,6 +38,13 @@ class TransaksiPenjualanController extends Controller
         // dd($barang);
         $total = $request->qty * $barang->harga;
 
+        $sisa_pembayaran = 0;
+
+        if($request->jenis_pembayaran == 'Cicil') {
+            $sisa_pembayaran = $total / 2;
+        }
+
+
 
 
         $transaksi =  TransaksiPenjualan::create([
@@ -47,9 +54,9 @@ class TransaksiPenjualanController extends Controller
             'barang_id' => $request->id_barang,
             'tanggal_penjualan' => Carbon::now()->toDateString(),
             'jenis_pembayaran' => $request->jenis_pembayaran,
+            'total_penjualan' => $total,
+            'sisa_pembayaran' => $sisa_pembayaran,
             'qty_brg' => $request->qty,
-            'total' => $total,
-
 
         ]);
 
@@ -84,6 +91,15 @@ class TransaksiPenjualanController extends Controller
 
         $total = $request->qty * $barang->harga;
 
+        $total = $request->qty * $barang->harga;
+
+        $sisa_pembayaran = 0;
+
+        if($request->jenis_pembayaran == 'Cicil') {
+            $sisa_pembayaran = $total / 2;
+        }
+
+
         $penjualan = TransaksiPenjualan::find($id);
         $penjualan->no_penjualan = $request->no_penjualan;
         $penjualan->pelanggan_id = $request->id_pelanggan;
@@ -93,6 +109,7 @@ class TransaksiPenjualanController extends Controller
         $penjualan->jenis_pembayaran = $request->jenis_pembayaran;
         $penjualan->total = $total;
         $penjualan->qty_brg = $request->qty;
+        $penjualan->sisa_pembayaran = $sisa_pembayaran;
         $penjualan->save();
 
         if ($penjualan->save()) {

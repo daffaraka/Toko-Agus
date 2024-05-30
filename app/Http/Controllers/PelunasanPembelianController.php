@@ -53,43 +53,32 @@ class PelunasanPembelianController extends Controller
     }
 
 
-    public function edit($id)
-    {
-        $plnPembelian = PelunasanPembelian::find($id);
-        // dd($plnPembelian);
-        $pembelian = TransaksiPembelian::where('jenis_pembayaran','Cicil')->get();
-        $barang = Barang::all();
-        return view('pelunasan-pembelian.plns-pembelian-edit', compact('plnPembelian', 'pembelian', 'barang'));
-    }
+    // public function edit($id)
+    // {
+    //     $plnPembelian = PelunasanPembelian::find($id);
+    //     // dd($plnPembelian);
+    //     $pembelian = TransaksiPembelian::where('jenis_pembayaran','Cicil')->get();
+    //     $barang = Barang::all();
+    //     return view('pelunasan-pembelian.plns-pembelian-edit', compact('plnPembelian', 'pembelian', 'barang'));
+    // }
 
 
-    public function update(Request $request, $id)
-    {
+    // public function update(Request $request, $id)
+    // {
 
-        $barang = Barang::find($request->id_barang);
+    //     $barang = Barang::find($request->id_barang);
 
-        $transPembelian = TransaksiPembelian::find($request->pembelian_id);
-        $transPembelian->sisa_pembayaran -= $request->nominal_pembayaran;
-        $transPembelian->save();
+    //     $transPembelian = TransaksiPembelian::find($request->pembelian_id);
+    //     $transPembelian->sisa_pembayaran -= $request->nominal_pembayaran;
+    //     $transPembelian->save();
+    //     return redirect()->route('pelunasanPembelian.index')->with('success', 'Transaksi Pelunasan Pembelian Berhasil di perbarui');
+    // }
 
+    // public function destroy($id)
+    // {
+    //     $plnPembelian = PelunasanPembelian::find($id);
+    //     $plnPembelian->delete();
 
-
-        // $plnPembelian = PelunasanPembelian::find($id);
-        // $plnPembelian->pembelian_id = $request->pembelian_id;
-        // $plnPembelian->barang_id = $request->id_barang;
-        // $plnPembelian->sisa_pembayaran = $sisa_pembayaran;
-        // $plnPembelian->total = $total;
-        // $plnPembelian->qty = $request->qty;
-        // $plnPembelian->save();
-
-        return redirect()->route('pelunasanPembelian.index')->with('success', 'Transaksi Pelunasan Pembelian Berhasil di perbarui');
-    }
-
-    public function destroy($id)
-    {
-        $plnPembelian = PelunasanPembelian::find($id);
-        $plnPembelian->delete();
-
-        return redirect()->route('pelunasanPembelian.index')->with('success', 'Transaksi Berhasil di hapus');
-    }
+    //     return redirect()->route('pelunasanPembelian.index')->with('success', 'Transaksi Berhasil di hapus');
+    // }
 }
