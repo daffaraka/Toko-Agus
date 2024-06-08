@@ -2,6 +2,11 @@
 
 @include('layoutsbootstrap/sidebar')
 
-@yield('konten')                
+<div class="px-4">
+    @include('flash')
+
+</div>
+@yield('konten')
+
 
 @include('layoutsbootstrap/footer')

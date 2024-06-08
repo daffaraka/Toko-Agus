@@ -20,4 +20,18 @@ class Barang extends Model
         'harga_beli',
         'harga',
     ];
+
+
+
+    public function pembelianBarang()
+    {
+        return $this->belongsToMany(PembelianBarang::class,'pembelian_barangs','barang_id','pembelian_id')->withPivot('qty', 'total');
+    }
+
+
+    public function pembelian()
+    {
+        return $this->hasMany(TransaksiPembelian::class,'id');
+    }
+
 }

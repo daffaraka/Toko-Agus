@@ -59,10 +59,8 @@
                                         <th>No Penjualan</th>
                                         <th>Nama Pelanggan</th>
                                         <th>Kasir</th>
-                                        <th>Jenis Pembayaran</th>
-                                        <th>Nama Barang</th>
-                                        <th>Harga Barang</th>
-                                        <th>Qty</th>
+                                        <th>Jenis</th>
+                                        <th>Barang - Qty - Harga </th>
                                         <th>Total</th>
                                         <th>Sisa Pembayaran</th>
                                         <th>Action</th>
@@ -75,16 +73,24 @@
                                             <td>{{ $data->no_penjualan }}</td>
                                             <td>{{ $data->pelanggan->nama_pelanggan }}</td>
                                             <td>{{ $data->kasir }}</td>
-                                            <td>{{ $data->jenis_pembayaran}}</td>
-                                            <td>{{ $data->barang->nama_barang }}</td>
-                                            <td>Rp. {{ number_format($data->barang->harga) }}</td>
-                                            <td>{{ $data->qty_brg }}</td>
-                                            <td>Rp. {{number_format($data->total_penjualan)  }}</td>
-                                            <td>Rp. {{number_format($data->sisa_pembayaran)  }}</td>
+                                            <td>{{ $data->jenis_pembayaran }}</td>
+                                            <td>
+
+                                                {{-- {{$data->pembelianBarang->barang}} --}}
+                                                @foreach ($data->penjualanBarang as $barang)
+                                                    <li>{{ $barang->barang->nama_barang }} -  <b>( {{ $barang->qty }} ) </b>  -
+                                                        Rp.{{ number_format($barang->barang->harga) }} </li>
+                                                @endforeach
+
+                                            </td>
+                                            <td>Rp. {{ number_format($data->total_penjualan) }}</td>
+                                            <td>Rp. {{ number_format($data->sisa_pembayaran) }}</td>
                                             <td>
                                                 <div class="d-flex">
-                                                    <a href="{{route('penjualan.edit',$data->id)}}" class="btn btn-primary mr-1">Edit</a>
-                                                    <a href="{{route('penjualan.delete',$data->id)}}" class="btn btn-warning">Delete</a>
+                                                    <a href="{{ route('penjualan.edit', $data->id) }}"
+                                                        class="btn btn-primary mr-1">Edit</a>
+                                                    <a href="{{ route('penjualan.delete', $data->id) }}"
+                                                        class="btn btn-warning">Delete</a>
                                                 </div>
 
 

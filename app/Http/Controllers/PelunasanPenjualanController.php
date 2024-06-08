@@ -11,7 +11,7 @@ class PelunasanPenjualanController extends Controller
 {
     public function index()
     {
-        $plnPenjualan = TransaksiPenjualan::whereJenisPembayaran('cicil')->get();
+        $plnPenjualan = TransaksiPenjualan::with('penjualanBarang.barang')->whereJenisPembayaran('cicil')->get();
 
         return view('pelunasan-penjualan.plns-penjualan-index', compact('plnPenjualan'));
     }
@@ -29,9 +29,18 @@ class PelunasanPenjualanController extends Controller
     {
 
 
-        $transPembelian = TransaksiPenjualan::find($request->penjualan_id);
-        $transPembelian->sisa_pembayaran -= $request->nominal_pembayaran;
-        $transPembelian->save();
+
+        $transPenjualan = TransaksiPenjualan::find($request->penjualan_id);
+
+
+        if($request->nominal_pembayaran > $transPenjualan->sisa_pembayaran)
+        {
+            return redirect()->back()->with('error','Nominal pembayaran melebihi sisa pembayaran');
+        }
+
+
+        $transPenjualan->sisa_pembayaran -= $request->nominal_pembayaran;
+        $transPenjualan->save();
 
         PelunasanPenjualan::create([
             'penjualan_id' => $request->penjualan_id,
@@ -44,9 +53,9 @@ class PelunasanPenjualanController extends Controller
 
     public function pembayaran($id)
     {
-        $plnPenjualan = TransaksiPenjualan::with(['pelanggan','barang'])->find($id);
+        $plnPenjualan = TransaksiPenjualan::with(['pelanggan','penjualanBarang.barang'])->find($id);
 
-        $dataPelunasan = PelunasanPenjualan::all();
+        $dataPelunasan = PelunasanPenjualan::where('penjualan_id',$id)->get();
 
         return view('pelunasan-penjualan.plns-penjualan-pelunasan', compact('plnPenjualan','dataPelunasan'));
     }

@@ -15,16 +15,13 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('no_penjualan');
             $table->unsignedBigInteger('pelanggan_id');
-            $table->unsignedBigInteger('barang_id');
             $table->string('kasir');
             $table->date('tanggal_penjualan');
             $table->string('jenis_pembayaran');
-            $table->bigInteger('total_penjualan');
+            $table->bigInteger('total_penjualan')->default(0);
             $table->bigInteger('sisa_pembayaran')->default(0);
-            $table->integer('qty_brg');
 
             $table->foreign('pelanggan_id')->references('id')->on('pelanggan')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('barang_id')->references('id_barang')->on('barang')->onDelete('cascade')->onUpdate('cascade');
 
             $table->timestamps();
         });

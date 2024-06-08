@@ -51,10 +51,7 @@
                                         <th>No Pembelian</th>
                                         <th>Pelanggan</th>
                                         <th>Barang</th>
-                                        <th>Jenis Pembayaran</th>
-                                        {{-- <th>Tanggal Pembelian</th> --}}
-                                        <th>Qty</th>
-                                        <th>Harga</th>
+                                        <th>Jenis </th>
                                         <th>Total</th>
                                         <th>Sisa Pembayaran</th>
 
@@ -69,13 +66,16 @@
                                             <td>{{ $data->tanggal_penjualan }}</td>
                                             <td>{{ $data->no_penjualan }}</td>
                                             <td>{{ $data->pelanggan->nama_pelanggan }}</td>
-                                            <td>{{ $data->barang->nama_barang }}</td>
-                                            <td> <button class="btn btn-info" >{{ $data->jenis_pembayaran }}</button> </td>
-                                            {{-- <td>{{ $data->tanggal_pembelian }}</td> --}}
-                                            <td>{{ $data->qty_brg }}</td>
-                                            <td>Rp. {{ number_format($data->barang->harga)  }}</td>
-                                            <td>Rp. {{ number_format($data->total_pembelian ) }}</td>
-                                            <td>Rp. {{ number_format($data->sisa_pembayaran)  }}</td>
+                                            <td>
+                                                <ul>
+                                                    @foreach ($data->penjualanBarang as $barang)
+                                                        <li>{{ $barang->barang->nama_barang }} ( {{$barang->qty}} ) - Rp.{{number_format($barang->barang->harga)}}  </li>
+                                                    @endforeach
+                                                </ul>
+                                            </td>
+                                            <td> <button class="btn btn-info">{{ $data->jenis_pembayaran }}</button> </td>
+                                            <td>Rp. {{ number_format($data->total_penjualan) }}</td>
+                                            <td>Rp. {{ number_format($data->sisa_pembayaran) }}</td>
 
                                             <td>
                                                 <div class="d-flex">

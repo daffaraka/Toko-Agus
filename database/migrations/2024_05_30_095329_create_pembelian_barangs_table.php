@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('pembelian_id');
             $table->unsignedBigInteger('barang_id');
+            $table->integer('qty');
+            $table->bigInteger('total');
 
             $table->foreign('pembelian_id')->references('id')->on('transaksi_pembelians')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('barang_id')->references('id_barang')->on('barang')->onDelete('cascade')->onUpdate('cascade');

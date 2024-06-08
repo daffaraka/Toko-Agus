@@ -18,7 +18,7 @@
 
                     <!-- Card Header - Dropdown -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-danger">Edit Data Pembelian</h6>
+                        <h6 class="m-0 font-weight-bold text-danger">Edit Data penjualan</h6>
 
                     </div>
                     <div class="card-body">
@@ -31,16 +31,19 @@
                         </div>
                         <div class="form-group">
                             <label for="">Barang</label>
-                            <input type="text" class="form-control" value="{{ $plnPenjualan->barang->nama_barang }}"
-                                readonly>
-                            </select>
+                            <div class="card">
+                                <div class="card-body">
+                                    <ul>
+                                     @foreach ($plnPenjualan->penjualanBarang as $barang)
+                                            <li>{{ $barang->barang->nama_barang }} - ( {{ $barang->qty }} ) -
+                                                Rp.{{ number_format($barang->barang->harga) }} </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="">Qty</label>
-                            <input type="number" name="qty" class="form-control" required
-                                value="{{ $plnPenjualan->qty_brg }}" readonly>
-                        </div>
+
 
 
                         <div class="form-group">
@@ -51,31 +54,31 @@
 
                         <div class="form-group">
                             <label for="">Total Penjualan</label>
-                            <input type="number" name="total_pembelian" class="form-control" required
+                            <input type="number" name="total_penjualan" class="form-control" required
                                 value="{{ $plnPenjualan->total_penjualan }}" readonly>
                         </div>
 
                         <div class="form-group">
                             <label for="">Sisa Pembayaran</label>
-                            <input type="number" name="total_pembelian" class="form-control" required
+                            <input type="number" name="total_penjualan" class="form-control" required
                                 value="{{ $plnPenjualan->sisa_pembayaran }}" readonly>
                         </div>
 
 
                     </div>
 
-                    <div class="card-body">
-                        <form action="{{ route('pelunasanPembelian.update', $plnPenjualan->id) }}" method="POST">
+                    {{-- <div class="card-body">
+                        <form action="{{ route('pelunasanpenjualan.update', $plnPenjualan->id) }}" method="POST">
 
                         </form>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
 
             <div class="col-xl-6 col-lg-6 col-sm-6">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-danger">Tambah Data Pelunasan Pembelian</h6>
+                        <h6 class="m-0 font-weight-bold text-danger">Tambah Data Pelunasan penjualan</h6>
                     </div>
                     @if ($plnPenjualan->sisa_pembayaran == 0)
                         <div class="card-body">

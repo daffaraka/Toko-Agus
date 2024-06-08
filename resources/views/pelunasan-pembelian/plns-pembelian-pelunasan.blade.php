@@ -31,15 +31,16 @@
                         </div>
                         <div class="form-group">
                             <label for="">Barang</label>
-                            <input type="text" class="form-control" value="{{ $plnPembelian->barang->nama_barang }}"
-                                readonly>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="">Qty</label>
-                            <input type="number" name="qty" class="form-control" required
-                                value="{{ $plnPembelian->qty_brg }}" readonly>
+                            <div class="card">
+                                <div class="card-body">
+                                    <ul>
+                                     @foreach ($plnPembelian->pembelianBarang as $barang)
+                                            <li>{{ $barang->barang->nama_barang }} - ( {{ $barang->qty }} ) -
+                                                Rp.{{ number_format($barang->barang->harga) }} </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
 
 

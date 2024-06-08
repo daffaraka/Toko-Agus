@@ -12,7 +12,7 @@ class PelunasanPembelianController extends Controller
 {
     public function index()
     {
-        $plnPembelian = TransaksiPembelian::whereJenisPembayaran('cicil')->get();
+        $plnPembelian = TransaksiPembelian::with('pembelianBarang.barang')->whereJenisPembayaran('cicil')->get();
 
         return view('pelunasan-pembelian.plns-pembelian-index', compact('plnPembelian'));
     }
@@ -31,6 +31,12 @@ class PelunasanPembelianController extends Controller
 
 
         $transPembelian = TransaksiPembelian::find($request->pembelian_id);
+
+
+        if($request->nominal_pembayaran > $transPembelian->sisa_pembayaran)
+        {
+            return redirect()->back()->with('error','Nominal pembayaran melebihi sisa pembayaran');
+        }
         $transPembelian->sisa_pembayaran -= $request->nominal_pembayaran;
         $transPembelian->save();
 
@@ -45,40 +51,10 @@ class PelunasanPembelianController extends Controller
 
     public function pembayaran($id)
     {
-        $plnPembelian = TransaksiPembelian::with(['supplier','barang'])->find($id);
+        $plnPembelian = TransaksiPembelian::with(['supplier','pembelianBarang.barang'])->find($id);
 
-        $dataPelunasan = PelunasanPembelian::all();
-
+        $dataPelunasan = PelunasanPembelian::where('pembelian_id',$id)->get();
         return view('pelunasan-pembelian.plns-pembelian-pelunasan', compact('plnPembelian','dataPelunasan'));
     }
 
-
-    // public function edit($id)
-    // {
-    //     $plnPembelian = PelunasanPembelian::find($id);
-    //     // dd($plnPembelian);
-    //     $pembelian = TransaksiPembelian::where('jenis_pembayaran','Cicil')->get();
-    //     $barang = Barang::all();
-    //     return view('pelunasan-pembelian.plns-pembelian-edit', compact('plnPembelian', 'pembelian', 'barang'));
-    // }
-
-
-    // public function update(Request $request, $id)
-    // {
-
-    //     $barang = Barang::find($request->id_barang);
-
-    //     $transPembelian = TransaksiPembelian::find($request->pembelian_id);
-    //     $transPembelian->sisa_pembayaran -= $request->nominal_pembayaran;
-    //     $transPembelian->save();
-    //     return redirect()->route('pelunasanPembelian.index')->with('success', 'Transaksi Pelunasan Pembelian Berhasil di perbarui');
-    // }
-
-    // public function destroy($id)
-    // {
-    //     $plnPembelian = PelunasanPembelian::find($id);
-    //     $plnPembelian->delete();
-
-    //     return redirect()->route('pelunasanPembelian.index')->with('success', 'Transaksi Berhasil di hapus');
-    // }
 }

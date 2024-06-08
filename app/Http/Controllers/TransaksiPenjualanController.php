@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Barang;
 use App\Models\Pelanggan;
+use App\Models\PenjualanBarang;
 use Illuminate\Http\Request;
 use App\Models\TransaksiPenjualan;
 use Illuminate\Support\Facades\Validator;
@@ -14,7 +15,7 @@ class TransaksiPenjualanController extends Controller
 
     public function index()
     {
-        $penjualan = TransaksiPenjualan::with(['pelanggan', 'barang'])->get();
+        $penjualan = TransaksiPenjualan::with(['pelanggan', 'penjualanBarang.barang'])->get();
 
         return view('penjualan.penjualan-index', compact('penjualan'));
     }
@@ -31,51 +32,53 @@ class TransaksiPenjualanController extends Controller
     public function store(Request $request)
     {
 
-        // $request->validate($request->all());
-
-        $barang = Barang::find($request->id_barang);
-
-        // dd($barang);
-        $total = $request->qty * $barang->harga;
-
         $sisa_pembayaran = 0;
+        $finalTotal = 0;
+
+        $transaksiPenjual = new TransaksiPenjualan();
+        $transaksiPenjual->no_penjualan = $request->no_penjualan;
+        $transaksiPenjual->pelanggan_id = $request->id_pelanggan;
+        $transaksiPenjual->kasir = $request->kasir;
+        $transaksiPenjual->tanggal_penjualan = Carbon::now()->toDateString();
+        $transaksiPenjual->jenis_pembayaran = $request->jenis_pembayaran;
+        $transaksiPenjual->save();
+
+        for($i=0; $i<count($request->id_barang); $i++){
+            $barang = Barang::find($request->id_barang[$i]);
+            $total = $request->qty[$i] * $barang->harga;
+            $finalTotal += $total;
+
+
+            $penjualanBarang = new PenjualanBarang();
+            $penjualanBarang->penjualan_id = $transaksiPenjual->id;
+            $penjualanBarang->barang_id = $request->id_barang[$i];
+            $penjualanBarang->qty = $request->qty[$i];
+            $penjualanBarang->total = $total;
+            $penjualanBarang->save();
+
+
+            $barang->stok -= $request->qty[$i];
+            $barang->save();
+
+        }
 
         if($request->jenis_pembayaran == 'Cicil') {
-            $sisa_pembayaran = $total / 2;
+            $sisa_pembayaran = $finalTotal / 2;
+        } else {
+            $sisa_pembayaran = 0;
         }
 
-
-
-
-        $transaksi =  TransaksiPenjualan::create([
-            'no_penjualan' => $request->no_penjualan,
-            'pelanggan_id' => $request->id_pelanggan,
-            'kasir' => $request->kasir,
-            'barang_id' => $request->id_barang,
-            'tanggal_penjualan' => Carbon::now()->toDateString(),
-            'jenis_pembayaran' => $request->jenis_pembayaran,
-            'total_penjualan' => $total,
-            'sisa_pembayaran' => $sisa_pembayaran,
-            'qty_brg' => $request->qty,
-
-        ]);
-
-        if ($transaksi) {
-            $barang->stok -= $request->qty;
-            $barang->save();
-        }
+        $transaksiPenjual->sisa_pembayaran = $sisa_pembayaran;
+        $transaksiPenjual->total_penjualan = $finalTotal;
+        $transaksiPenjual->save();
 
         return redirect()->route('penjualan.index')->with('success', 'Transaksi Berhasil di Input');
-    }
-
-    public function show($id)
-    {
     }
 
 
     public function edit($id)
     {
-        $penjualan = TransaksiPenjualan::find($id);
+        $penjualan = TransaksiPenjualan::with(['penjualanBarang.barang'])->find($id);
         // dd($penjualan);
         $pelanggan = Pelanggan::all();
         $barang = Barang::all();
@@ -86,36 +89,43 @@ class TransaksiPenjualanController extends Controller
     public function update(Request $request, $id)
     {
 
-        $barang = Barang::find($request->id_barang);
-
-
-        $total = $request->qty * $barang->harga;
-
-        $total = $request->qty * $barang->harga;
-
         $sisa_pembayaran = 0;
+        $finalTotal = 0;
 
-        if($request->jenis_pembayaran == 'Cicil') {
-            $sisa_pembayaran = $total / 2;
-        }
+        $transaksiPenjual = TransaksiPenjualan::find($id);
 
+        $transaksiPenjual->barang()->detach();
 
-        $penjualan = TransaksiPenjualan::find($id);
-        $penjualan->no_penjualan = $request->no_penjualan;
-        $penjualan->pelanggan_id = $request->id_pelanggan;
-        $penjualan->kasir = $request->kasir;
-        $penjualan->barang_id = $request->id_barang;
-        $penjualan->tanggal_penjualan = $request->tanggal_penjualan;
-        $penjualan->jenis_pembayaran = $request->jenis_pembayaran;
-        $penjualan->total = $total;
-        $penjualan->qty_brg = $request->qty;
-        $penjualan->sisa_pembayaran = $sisa_pembayaran;
-        $penjualan->save();
+        $transaksiPenjual->no_penjualan = $request->no_penjualan;
+        $transaksiPenjual->pelanggan_id = $request->id_pelanggan;
+        $transaksiPenjual->kasir = $request->kasir;
+        $transaksiPenjual->tanggal_penjualan = Carbon::now()->toDateString();
+        $transaksiPenjual->jenis_pembayaran = $request->jenis_pembayaran;
+        $transaksiPenjual->save();
 
-        if ($penjualan->save()) {
-            $barang->stok -= $request->qty;
+        for ($i = 0; $i < count($request->id_barang); $i++) {
+            $barang = Barang::find($request->id_barang[$i]);
+
+            $total = $request->qty[$i] * $barang->harga;
+            $finalTotal += $total; // Menambahkan total individu ke $finalTotal
+
+            $transaksiPenjual->barang()->attach($request->id_barang[$i], [
+                'qty' => $request->qty[$i],
+                'total' => $total
+            ]);
+
+            $barang->stok += $request->qty[$i];
             $barang->save();
         }
+
+        if ($request->jenis_pembayaran == 'Cicil') {
+            $sisa_pembayaran = $finalTotal / 2;
+        } else {
+            $sisa_pembayaran = 0;
+        }
+
+        $transaksiPenjual->sisa_pembayaran = $sisa_pembayaran;
+        $transaksiPenjual->save();
         return redirect()->route('penjualan.index')->with('success', 'Transaksi Berhasil di edit');
     }
 

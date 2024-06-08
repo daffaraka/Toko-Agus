@@ -1,6 +1,4 @@
 @extends('layoutbootstrap')
-
-
 @section('konten')
     @if (isset($status_hapus))
         <script>
@@ -58,10 +56,8 @@
                                         <th>#</th>
                                         <th>No Pembelian</th>
                                         <th>Supplier</th>
-                                        <th>Barang</th>
+                                        <th>Barang - Qty - Harga Beli</th>
                                         <th>Jenis Pembayaran</th>
-                                        <th>Qty</th>
-                                        <th>Harga</th>
                                         <th>Total</th>
                                         <th>Sisa Pembayaran</th>
 
@@ -75,17 +71,27 @@
                                             <td>{{ $data->tanggal_pembelian }}</td>
                                             <td>{{ $data->no_pembelian }}</td>
                                             <td>{{ $data->supplier->nama_supplier }}</td>
-                                            <td>{{ $data->barang->nama_barang }}</td>
+                                            <td>
+
+                                                {{-- {{$data->pembelianBarang->barang}} --}}
+                                                <ul>
+                                                    @foreach ($data->pembelianBarang as $barang)
+                                                        <li>{{ $barang->barang->nama_barang }} - <b>( {{ $barang->qty }} )</b> -
+                                                            Rp.{{ number_format($barang->barang->harga_beli) }} </li>
+                                                    @endforeach
+                                                </ul>
+
+                                            </td>
+
                                             <td>{{ $data->jenis_pembayaran }}</td>
-                                            {{-- <td>{{ $data->tanggal_pembelian }}</td> --}}
-                                            <td>{{ $data->qty_brg }}</td>
-                                            <td>{{ $data->barang->harga }}</td>
-                                            <td>{{ $data->total_pembelian }}</td>
-                                            <td>{{ $data->sisa_pembayaran}}</td>
+                                            <td>Rp.{{ number_format($data->total_pembelian)  }}</td>
+                                            <td>Rp.{{ number_format($data->sisa_pembayaran)  }}</td>
                                             <td>
                                                 <div class="d-flex">
-                                                    <a href="{{route('pembelian.edit',$data->id)}}" class="btn btn-primary mr-1">Edit</a>
-                                                    <a href="{{route('pembelian.delete',$data->id)}}" class="btn btn-warning">Delete</a>
+                                                    <a href="{{ route('pembelian.edit', $data->id) }}"
+                                                        class="btn btn-primary mr-1">Edit</a>
+                                                    <a href="{{ route('pembelian.delete', $data->id) }}"
+                                                        class="btn btn-warning">Delete</a>
                                                 </div>
 
 

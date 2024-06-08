@@ -23,5 +23,29 @@ class StokbarangSeeder extends Seeder
 
             ]
         );
+
+
+        Barang::create(
+            [
+                'nama_barang' => 'Pulpen',
+                'jumlah' => 50,
+                'stok' => 100,
+                'harga_beli' => 3000,
+                'harga' => 10000,
+
+            ]
+        );
+
+
+        Barang::create(
+            [
+                'nama_barang' => 'Pensil',
+                'jumlah' => 50,
+                'stok' => 100,
+                'harga_beli' => 2500,
+                'harga' => 7500,
+
+            ]
+        );
     }
 }

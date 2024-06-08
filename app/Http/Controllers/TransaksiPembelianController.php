@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Barang;
+use App\Models\PembelianBarang;
 use App\Models\Vendor;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
@@ -13,7 +14,10 @@ class TransaksiPembelianController extends Controller
 {
     public function index()
     {
-        $pembelian = TransaksiPembelian::with('supplier')->get();
+        $pembelian = TransaksiPembelian::with(['supplier', 'pembelianBarang.barang'])->get();
+
+        // dd($pembelian);
+        // dd($pembelian);
         return view('pembelian.pembelian-index', compact('pembelian'));
     }
 
@@ -22,45 +26,57 @@ class TransaksiPembelianController extends Controller
     {
         $barang = Barang::all();
         $supplier = Supplier::all();
-        return view('pembelian.pembelian-create', compact('supplier','barang'));
+        return view('pembelian.pembelian-create', compact('supplier', 'barang'));
     }
 
 
     public function store(Request $request)
     {
 
-        // dd($request->all());
-        $barang = Barang::find($request->id_barang);
-
-        // dd($barang);
-        // $request->validate($request->all());
-        $total = $request->qty * $barang->harga;
-
         $sisa_pembayaran = 0;
+        $finalTotal = 0;
 
-        if($request->jenis_pembayaran == 'Cicil') {
-            $sisa_pembayaran = $total / 2;
-        }
+        $transaksiPembelian = new TransaksiPembelian();
 
-        // dd($barang);
-        $transaksi =   TransaksiPembelian::create([
-            'no_pembelian' => $request->no_pembelian,
-            'supplier_id' => $request->supplier_id,
-            'barang_id' => $request->id_barang,
-            'qty_brg' => $request->qty,
-            'jenis_pembayaran' => $request->jenis_pembayaran,
-            'sisa_pembayaran' => $sisa_pembayaran,
-            'tanggal_pembelian' =>Carbon::now()->toDateString(),
-            'total_pembelian' => $total,
+        $transaksiPembelian->no_pembelian = $request->no_pembelian;
+        $transaksiPembelian->supplier_id = $request->supplier_id;
+        $transaksiPembelian->tanggal_pembelian = Carbon::now()->toDateString();
+        $transaksiPembelian->jenis_pembayaran = $request->jenis_pembayaran;
+        $transaksiPembelian->save();
+
+        // 'total_pembelian' => $total,
 
 
-        ]);
+        for ($i = 0; $i < count($request->id_barang); $i++) {
 
-        if($transaksi){
-            $barang->stok += $request->qty;
+
+            $barang = Barang::find($request->id_barang[$i]);
+            $total = $request->qty[$i] * $barang->harga_beli;
+            $finalTotal += $total; // Menambahkan total individu ke $finalTotal
+
+            $pembelianBarang = new PembelianBarang();
+            $pembelianBarang->pembelian_id = $transaksiPembelian->id;
+            $pembelianBarang->barang_id = $request->id_barang[$i];
+            $pembelianBarang->qty = $request->qty[$i];
+            $pembelianBarang->total = $total;
+            $pembelianBarang->save();
+
+            $barang->stok += $request->qty[$i];
             $barang->save();
-
         }
+
+
+
+        if ($request->jenis_pembayaran == 'Cicil') {
+            $sisa_pembayaran = $finalTotal / 2;
+        } else {
+            $sisa_pembayaran = 0;
+        }
+        $transaksiPembelian->sisa_pembayaran = $sisa_pembayaran;
+        $transaksiPembelian->total_pembelian = $finalTotal;
+        $transaksiPembelian->save();
+
+
 
         return redirect()->route('pembelian.index')->with('success', 'Transaksi Berhasil di Input');
     }
@@ -72,45 +88,57 @@ class TransaksiPembelianController extends Controller
 
     public function edit($id)
     {
-        $pembelian = TransaksiPembelian::find($id);
+        $pembelian = TransaksiPembelian::with(['pembelianBarang.barang'])->find($id);
         // dd($pembelian);
         $supplier = Supplier::all();
         $barang = Barang::all();
-        return view('pembelian.pembelian-edit', compact('pembelian', 'supplier','barang'));
+        return view('pembelian.pembelian-edit', compact('pembelian', 'supplier', 'barang'));
     }
 
 
     public function update(Request $request, $id)
     {
-
-
-        $barang = Barang::find($request->id_barang);
-
-        // dd($barang);
-        // $request->validate($request->all());
-        $total = $request->qty * $barang->harga;
-
         $sisa_pembayaran = 0;
+        $finalTotal = 0;
 
-        if($request->jenis_pembayaran == 'Cicil') {
-            $sisa_pembayaran = $total / 2;
+        $transaksiPembelian = TransaksiPembelian::find($id);
+
+        $transaksiPembelian->barang()->detach();
+
+        $transaksiPembelian->no_pembelian = $request->no_pembelian;
+        $transaksiPembelian->supplier_id = $request->supplier_id;
+        $transaksiPembelian->tanggal_pembelian = Carbon::now()->toDateString();
+        $transaksiPembelian->jenis_pembayaran = $request->jenis_pembayaran;
+        $transaksiPembelian->save();
+
+        for ($i = 0; $i < count($request->id_barang); $i++) {
+            $barang = Barang::find($request->id_barang[$i]);
+
+            $total = $request->qty[$i] * $barang->harga_beli;
+            $finalTotal += $total; // Menambahkan total individu ke $finalTotal
+
+            $transaksiPembelian->barang()->attach($request->id_barang[$i], [
+                'qty' => $request->qty[$i],
+                'total' => $total
+            ]);
+
+            $barang->stok += $request->qty[$i];
+            $barang->save();
         }
 
-        dd($sisa_pembayaran);
-        $pembelian = TransaksiPembelian::find($id);
+        if ($request->jenis_pembayaran == 'Cicil') {
+            $sisa_pembayaran = $finalTotal / 2;
+        } else {
+            $sisa_pembayaran = 0;
+        }
 
-        $pembelian->no_pembelian = $request->no_pembelian;
-        $pembelian->supplier_id = $request->supplier_id;
-        $pembelian->barang_id = $request->id_barang;
-        $pembelian->tanggal_pembelian = $request->tanggal_pembelian;
-        $pembelian->jenis_pembayaran = $request->jenis_pembayaran;
-        $pembelian->barang_id = $request->id_barang;
-        $pembelian->total_pembelian = $total;
+        $transaksiPembelian->sisa_pembayaran = $sisa_pembayaran;
+        $transaksiPembelian->save();
 
-        $pembelian->save();
-
-        return redirect()->route('pembelian.index')->with('success', 'Transaksi Berhasil di edit');
+        // Redirect ke halaman index dengan pesan sukses
+        return redirect()->route('pembelian.index')->with('success', 'Transaksi berhasil diedit');
     }
+
 
     public function destroy($id)
     {

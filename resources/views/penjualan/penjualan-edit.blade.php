@@ -27,19 +27,20 @@
                     </div>
                     <!-- Card Body -->
                     <div class="card-body">
-                        <form action="{{ route('penjualan.update',$penjualan->id) }}" method="POST">
+                        <form action="{{ route('penjualan.update', $penjualan->id) }}" method="POST">
 
                             @csrf
 
                             <div class="form-group">
                                 <label for="">No Penjualan</label>
-                                <input type="text" name="no_penjualan" class="form-control" value="{{$penjualan->no_penjualan}}">
+                                <input type="text" name="no_penjualan" class="form-control"
+                                    value="{{ $penjualan->no_penjualan }}">
                             </div>
                             <div class="form-group">
                                 <label for="">Pelanggan</label>
                                 <select type="text" name="id_pelanggan" class="form-control">
                                     @foreach ($pelanggan as $select)
-                                        <option value="{{$select->id}}">{{$select->nama_pelanggan}}</option>
+                                        <option value="{{ $select->id }}">{{ $select->nama_pelanggan }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -49,26 +50,47 @@
                             </div> --}}
                             <div class="form-group">
                                 <label for="">Kasir</label>
-                                <input type="text" name="kasir" class="form-control" value={{$penjualan->kasir}}>
-                            </div>
-                            <div class="form-group">
-                                <label for="">Barang</label>
-                                <select type="text" name="id_barang" class="form-control" required>
-                                    @foreach ($barang as $selectBarang)
-                                        <option value="{{ $selectBarang->id_barang }}">{{ $selectBarang->nama_barang }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="">Tanggal Penjualan</label>
-                                <input type="text" name="tanggal_penjualan" class="form-control" value="{{$penjualan->tanggal_penjualan}}">
-                            </div>
-                            <div class="form-group">
-                                <label for="">Qty</label>
-                                <input type="text" name="qty" class="form-control" value="{{$penjualan->qty_brg}}">
+                                <input type="text" name="kasir" class="form-control" value={{ $penjualan->kasir }}>
                             </div>
 
-                            <button class="btn btn-danger">Tambahkan </button>
+                            <div class="form-group">
+                                <label for="">Jenis Pembayaran</label>
+                                <select type="text" name="jenis_pembayaran" class="form-control">
+                                    <option value="Cicil">Cicil</option>
+                                    <option value="Lunas">Lunas</option>
+                                </select>
+                            </div>
+
+
+                            <label for="">Barang</label>
+                            @foreach ($penjualan->penjualanBarang as $item)
+                                <div id="inputFormRow" class="mt-3 pbb">
+                                    <div class="input-group mb-3">
+                                        <select type="text" name="id_barang[]" class="form-control" required>
+                                            @foreach ($barang as $selectBarang)
+                                                <option value="{{ $selectBarang->id_barang }}"
+                                                    {{ $selectBarang->id_barang == $item->barang_id ? 'selected' : '' }}>
+                                                    {{ $selectBarang->nama_barang }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+
+                                        <input type="number" name="qty[]" class="form-control m-input text-dark"
+                                            placeholder="Qty barang" required autocomplete="off"
+                                            value="{{ $item->qty }}">
+                                        <button type="button" id="removeRow" class="btn btn-danger">Kurangi</button>
+
+                                    </div>
+                                </div>
+                            @endforeach
+                            <div id="newRow"></div>
+
+                            <button id="addRow" type="button" class="btn btn-sm btn-secondary mb-4 mt-3">Tambah
+                                Barang</button>
+
+                                <div class="div">
+                                    <button class="btn btn-danger">Simpan </button>
+                                </div>
                         </form>
 
                     </div>
@@ -144,6 +166,48 @@
                 });
                 return false;
             });
+        });
+
+
+        $("#addRow").click(function() {
+
+            // Get the JSON data as an array
+            var barangArray = {!! $barang !!};
+
+            // Create the options HTML using a loop
+            var options = '';
+            $.each(barangArray, function(key, barang) {
+                options += '<option value="' + barang.id_barang + '">' + barang.nama_barang +
+                    '</option>';
+            });
+
+            // Create the new row HTML
+
+            var html = '';
+            html += '<div id="inputFormRow" class="mt-3 pbb">';
+            html += '<div class="input-group mb-3">';
+            html +=
+                '<select class="livesearch form-control" name="id_barang[]" ';
+            html += '<option>Pilih Barang </option> ';
+            html += options;
+            html += '</select>';
+            html +=
+                ' <input type="number" name="qty[]" class="form-control m-input text-dark" placeholder="Qty barang" required autocomplete="off">';
+
+            html += '<div class="input-group-append">';
+            html += '<button id="removeRow" type="button" class="btn btn-danger">Kurangi</button>';
+            html += '</div>';
+            html += '</div>';
+            html += '</div>';
+
+            // Append the new row to #newRow
+
+            $('#newRow').append(html);
+            // $('.livesearch').select2();
+        });
+
+        $(document).on('click', '#removeRow', function() {
+            $(this).closest('#inputFormRow', '.pbb').remove();
         });
     </script>
     <!-- Akhir ketika tombol submit di form ditekan -->

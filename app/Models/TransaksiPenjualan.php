@@ -38,6 +38,12 @@ class TransaksiPenjualan extends Model
 
     public function barang()
     {
-        return $this->belongsTo(Barang::class,'barang_id');
+        return $this->belongsToMany(PenjualanBarang::class,'penjualan_barangs','penjualan_id','barang_id');
+
+    }
+
+    public function penjualanBarang()
+    {
+        return $this->hasMany(PenjualanBarang::class,'penjualan_id');
     }
 }

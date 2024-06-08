@@ -36,6 +36,13 @@ class TransaksiPembelian extends Model
 
     public function barang()
     {
-        return $this->belongsTo(Barang::class,'barang_id');
+        return $this->belongsToMany(PembelianBarang::class,'pembelian_barangs','pembelian_id','barang_id');
+
     }
+
+    public function pembelianBarang()
+    {
+        return $this->hasMany(PembelianBarang::class,'pembelian_id');
+    }
+
 }

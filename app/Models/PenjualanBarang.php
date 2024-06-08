@@ -5,27 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PembelianBarang extends Model
+class PenjualanBarang extends Model
 {
     use HasFactory;
 
     protected $fillable =
     [
-        'pembelian_id',
+        'penjualan_id',
         'barang_id',
         'qty',
-        'total'
+        'total',
     ];
 
 
-    /**
-     * Get the pembelian that owns the PembelianBarang
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function pembelian()
+
+    public function penjualan()
     {
-        return $this->belongsTo(TransaksiPembelian::class,'pembelian_id');
+        return $this->belongsTo(TransaksiPenjualan::class,'penjualan_id');
     }
 
     public function barang()
