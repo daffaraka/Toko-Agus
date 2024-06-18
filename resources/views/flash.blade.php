@@ -27,8 +27,11 @@
 @endif
 
 @if ($errors->any())
-    <div class="alert alert-danger py-3">
-        <button type="button" class="close shadow" data-dismiss="alert">×</button>
-        Please check the form below for errors
-    </div>
+<div class="alert alert-danger">
+    <ul>
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
 @endif

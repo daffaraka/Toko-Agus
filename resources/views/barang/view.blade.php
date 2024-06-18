@@ -67,8 +67,8 @@
                                             <td>{{ $p->nama_barang }}</td>
                                             <td>{{ $p->jumlah }}</td>
                                             <td>{{ $p->stok }}</td>
-                                            <td>{{ $p->harga_beli }}</td>
-                                            <td>{{ $p->harga }}</td>
+                                            <td>Rp.{{ number_format($p->harga_beli) }}</td>
+                                            <td>Rp. {{ number_format($p->harga) }}</td>
                                             <td style="text-align: center">
                                                 <a href="{{ route('barang.edit', $p->id_barang) }}"
                                                     class="btn btn-success btn-circle">

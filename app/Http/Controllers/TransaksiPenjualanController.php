@@ -32,6 +32,21 @@ class TransaksiPenjualanController extends Controller
     public function store(Request $request)
     {
 
+
+        $request->validate(
+            [
+                'qty.*' => 'required|numeric|gt:0',
+            ],
+            [
+                'qty.*.gt' => 'Qty tidak boleh 0',
+            ]
+        );
+
+
+
+        // dd($request->all());
+
+
         $sisa_pembayaran = 0;
         $finalTotal = 0;
 
@@ -43,7 +58,7 @@ class TransaksiPenjualanController extends Controller
         $transaksiPenjual->jenis_pembayaran = $request->jenis_pembayaran;
         $transaksiPenjual->save();
 
-        for($i=0; $i<count($request->id_barang); $i++){
+        for ($i = 0; $i < count($request->id_barang); $i++) {
             $barang = Barang::find($request->id_barang[$i]);
             $total = $request->qty[$i] * $barang->harga;
             $finalTotal += $total;
@@ -59,10 +74,9 @@ class TransaksiPenjualanController extends Controller
 
             $barang->stok -= $request->qty[$i];
             $barang->save();
-
         }
 
-        if($request->jenis_pembayaran == 'Cicil') {
+        if ($request->jenis_pembayaran == 'Cicil') {
             $sisa_pembayaran = $finalTotal / 2;
         } else {
             $sisa_pembayaran = 0;
@@ -88,6 +102,14 @@ class TransaksiPenjualanController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate(
+            [
+                'qty.*' => 'required|numeric|gt:0',
+            ],
+            [
+                'qty.*.gt' => 'Qty tidak boleh 0',
+            ]
+        );
 
         $sisa_pembayaran = 0;
         $finalTotal = 0;

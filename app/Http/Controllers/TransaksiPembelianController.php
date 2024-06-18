@@ -32,6 +32,15 @@ class TransaksiPembelianController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate(
+            [
+                'qty.*' => 'required|numeric|gt:0',
+            ],
+            [
+                'qty.*.gt' => 'Qty tidak boleh 0',
+            ]
+        );
+
 
         $sisa_pembayaran = 0;
         $finalTotal = 0;
@@ -98,6 +107,17 @@ class TransaksiPembelianController extends Controller
 
     public function update(Request $request, $id)
     {
+
+        $request->validate(
+            [
+                'qty.*' => 'required|numeric|gt:0',
+            ],
+            [
+                'qty.*.gt' => 'Qty tidak boleh 0',
+            ]
+        );
+
+
         $sisa_pembayaran = 0;
         $finalTotal = 0;
 

@@ -71,9 +71,9 @@
                                         @endforeach
                                     </select>
 
-                                    <input type="number" name="qty[]" class="form-control m-input text-dark"
-                                    placeholder="Qty barang" required autocomplete="off" required>
-                                    <button  type="button" class="btn btn-danger">--------</button>
+                                    <input type="number" name="qty[]" id="qty" class="form-control m-input text-dark"
+                                        placeholder="Qty barang" required autocomplete="off" required>
+                                    <button type="button" class="btn btn-danger">--------</button>
 
                                 </div>
 
@@ -111,6 +111,7 @@
     <script src="{{ asset('vendor/jquery/jquery.js') }}"></script>
 
     <script>
+
         $("#addRow").click(function() {
 
             // Get the JSON data as an array

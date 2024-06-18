@@ -2,24 +2,10 @@
 
 
 @section('konten')
-    @if (isset($status_hapus))
-        <script>
-            Swal.fire({
-                title: 'Berhasil!',
-                text: 'Hapus Data Berhasil',
-                icon: 'success',
-                confirmButtonText: 'Ok'
-            });
-        </script>
-    @endif
 
     <div class="container-fluid">
         <!-- Alert success -->
-        @if ($message = Session::get('success'))
-            <div class="alert alert-success">
-                <p>{{ $message }}</p>
-            </div>
-        @endif
+
         <!-- Akhir alert success -->
 
         <div class="row">

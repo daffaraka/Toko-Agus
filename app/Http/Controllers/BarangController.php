@@ -17,11 +17,12 @@ class BarangController extends Controller
     {
         //query data
         $barang = Barang::all();
-        return view('barang/view',
-                    [
-                        'barang' => $barang
-                    ]
-                  );
+        return view(
+            'barang/view',
+            [
+                'barang' => $barang
+            ]
+        );
     }
 
     /**
@@ -49,7 +50,7 @@ class BarangController extends Controller
         // masukkan ke db
         Barang::create($request->all());
 
-        return redirect()->route('barang.index')->with('success','Data Berhasil di Input');
+        return redirect()->route('barang.index')->with('success', 'Data Berhasil di Input');
     }
 
     /**
@@ -57,7 +58,7 @@ class BarangController extends Controller
      */
     public function show(Barang $barang)
     {
-       //
+        //
     }
 
     /**
@@ -85,7 +86,7 @@ class BarangController extends Controller
 
         $barang->update($validated);
 
-        return redirect()->route('barang.index')->with('success','Data Berhasil di Ubah');;
+        return redirect()->route('barang.index')->with('success', 'Data Berhasil di Ubah');;
     }
 
     /**
@@ -97,6 +98,6 @@ class BarangController extends Controller
         $barang = Barang::findOrFail($id_barang);
         $barang->delete();
 
-        return redirect()->route('barang.index')->with('success','Data Berhasil di Hapus');
+        return redirect()->route('barang.index')->with('success', 'Data Berhasil di Hapus');
     }
 }

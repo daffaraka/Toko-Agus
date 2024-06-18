@@ -36,7 +36,7 @@
                                     <ul>
                                      @foreach ($plnPembelian->pembelianBarang as $barang)
                                             <li>{{ $barang->barang->nama_barang }} - ( {{ $barang->qty }} ) -
-                                                Rp.{{ number_format($barang->barang->harga) }} </li>
+                                                Rp.{{ number_format($barang->barang->harga_beli) }} </li>
                                         @endforeach
                                     </ul>
                                 </div>
