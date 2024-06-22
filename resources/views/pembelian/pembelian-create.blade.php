@@ -41,19 +41,18 @@
                             </div>
 
 
-
                             <div class="form-group">
-                                <label for="">Jenis Pembayaran</label>
-                                <select type="text" name="jenis_pembayaran" class="form-control" required>
+                                <label for="jenis_pembayaran">Jenis Pembayaran</label>
+                                <select id="jenis_pembayaran" name="jenis_pembayaran" class="form-control" required>
                                     <option value="Lunas">Lunas</option>
                                     <option value="Cicil">Cicil</option>
                                 </select>
                             </div>
 
                             <div class="form-group">
-                                <label for="">Tanggal Jatuh Tempo</label>
-                                <input type="date" name="tanggal_jatuh_tempo" class="form-control" required
-                                    value="">
+                                <label for="tanggal_jatuh_tempo">Tanggal Jatuh Tempo</label>
+                                <input type="date" id="tanggal_jatuh_tempo" name="tanggal_jatuh_tempo"
+                                    class="form-control" required disabled>
                             </div>
 
                             <label for="">Barang</label>
@@ -202,6 +201,16 @@
                 });
                 return false;
             });
+        });
+
+        $(document).ready(function() {
+            $('#jenis_pembayaran').on('change', function() {
+                if ($(this).val() === 'Cicil') {
+                    $('#tanggal_jatuh_tempo').removeAttr('disabled');
+                } else {
+                    $('#tanggal_jatuh_tempo').attr('disabled', 'disabled');
+                }
+            }).trigger('change'); // Trigger change event on page load to set initial state
         });
     </script>
     <!-- Akhir ketika tombol submit di form ditekan -->

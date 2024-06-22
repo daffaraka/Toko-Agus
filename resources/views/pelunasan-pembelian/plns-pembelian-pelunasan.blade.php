@@ -62,6 +62,12 @@
                                 value="{{ $plnPembelian->sisa_pembayaran }}" readonly>
                         </div>
 
+                        <div class="form-group">
+                            <label for="">Tanggal Jatuh Tempo</label>
+                            <input type="date" name="total_pembelian" class="form-control" required
+                                value="{{ $plnPembelian->tanggal_jatuh_tempo }}" readonly>
+                        </div>
+
 
                     </div>
 
