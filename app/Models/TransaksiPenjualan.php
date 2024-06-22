@@ -22,6 +22,7 @@ class TransaksiPenjualan extends Model
         'jenis_pembayaran',
         'total_penjualan',
         'sisa_pembayaran',
+        'tanggal_jatuh_tempo'
 
     ];
 

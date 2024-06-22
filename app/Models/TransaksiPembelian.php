@@ -20,7 +20,7 @@ class TransaksiPembelian extends Model
         'total_pembelian',
         'sisa_pembayaran',
         'jenis_pembayaran',
-
+        'tanggal_jatuh_tempo'
     ];
 
 
@@ -31,18 +31,16 @@ class TransaksiPembelian extends Model
      */
     public function supplier()
     {
-        return $this->belongsTo(Supplier::class,'supplier_id');
+        return $this->belongsTo(Supplier::class, 'supplier_id');
     }
 
     public function barang()
     {
-        return $this->belongsToMany(PembelianBarang::class,'pembelian_barangs','pembelian_id','barang_id');
-
+        return $this->belongsToMany(PembelianBarang::class, 'pembelian_barangs', 'pembelian_id', 'barang_id');
     }
 
     public function pembelianBarang()
     {
-        return $this->hasMany(PembelianBarang::class,'pembelian_id');
+        return $this->hasMany(PembelianBarang::class, 'pembelian_id');
     }
-
 }

@@ -56,6 +56,7 @@ class TransaksiPenjualanController extends Controller
         $transaksiPenjual->kasir = $request->kasir;
         $transaksiPenjual->tanggal_penjualan = Carbon::now()->toDateString();
         $transaksiPenjual->jenis_pembayaran = $request->jenis_pembayaran;
+        $transaksiPenjual->tanggal_jatuh_tempo = $request->tanggal_jatuh_tempo;
         $transaksiPenjual->save();
 
         for ($i = 0; $i < count($request->id_barang); $i++) {
@@ -136,7 +137,7 @@ class TransaksiPenjualanController extends Controller
                 'total' => $total
             ]);
 
-            $barang->stok += $request->qty[$i];
+            $barang->stok -= $request->qty[$i];
             $barang->save();
         }
 

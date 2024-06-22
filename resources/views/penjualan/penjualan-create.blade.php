@@ -51,6 +51,10 @@
                                 <label for="">Kasir</label>
                                 <input type="text" name="kasir" class="form-control" required>
                             </div>
+                            <div class="form-group">
+                                <label for="">Tanggal Jatuh Tempo</label>
+                                <input type="date" name="tanggal_jatuh_tempo" class="form-control" required>
+                            </div>
 
                             <div class="form-group">
                                 <label for="">Jenis Pembayaran</label>

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('jenis_pembayaran');
             $table->bigInteger('total_penjualan')->default(0);
             $table->bigInteger('sisa_pembayaran')->default(0);
-
+            $table->date('tanggal_jatuh_tempo');
             $table->foreign('pelanggan_id')->references('id')->on('pelanggan')->onDelete('cascade')->onUpdate('cascade');
 
             $table->timestamps();

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->bigInteger('total_pembelian')->default(0);
             $table->bigInteger('sisa_pembayaran')->default(0);
             $table->string('jenis_pembayaran');
+            $table->date('tanggal_jatuh_tempo');
             $table->timestamps();
 
             $table->foreign('supplier_id')->references('id_supplier')->on('supplier')->onDelete('cascade')->onUpdate('cascade');

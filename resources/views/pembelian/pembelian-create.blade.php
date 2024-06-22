@@ -3,11 +3,7 @@
 @section('konten')
     <div class="container-fluid">
         <!-- Alert success -->
-        @if ($message = Session::get('success'))
-            <div class="alert alert-success">
-                <p>{{ $message }}</p>
-            </div>
-        @endif
+
         <!-- Akhir alert success -->
 
         <div class="row">
@@ -53,6 +49,13 @@
                                     <option value="Cicil">Cicil</option>
                                 </select>
                             </div>
+
+                            <div class="form-group">
+                                <label for="">Tanggal Jatuh Tempo</label>
+                                <input type="date" name="tanggal_jatuh_tempo" class="form-control" required
+                                    value="">
+                            </div>
+
                             <label for="">Barang</label>
                             <div id="inputFormRow">
                                 <div class="input-group">
@@ -65,8 +68,8 @@
                                     </select>
 
                                     <input type="number" name="qty[]" class="form-control m-input text-dark"
-                                    placeholder="Qty barang" required autocomplete="off">
-                                    <button  type="button" class="btn btn-danger">--------</button>
+                                        placeholder="Qty barang" required autocomplete="off">
+                                    <button type="button" class="btn btn-danger">--------</button>
 
                                 </div>
 

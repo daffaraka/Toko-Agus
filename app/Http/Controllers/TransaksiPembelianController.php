@@ -51,13 +51,13 @@ class TransaksiPembelianController extends Controller
         $transaksiPembelian->supplier_id = $request->supplier_id;
         $transaksiPembelian->tanggal_pembelian = Carbon::now()->toDateString();
         $transaksiPembelian->jenis_pembayaran = $request->jenis_pembayaran;
+        $transaksiPembelian->tanggal_jatuh_tempo = $request->tanggal_jatuh_tempo;
         $transaksiPembelian->save();
 
         // 'total_pembelian' => $total,
 
 
         for ($i = 0; $i < count($request->id_barang); $i++) {
-
 
             $barang = Barang::find($request->id_barang[$i]);
             $total = $request->qty[$i] * $barang->harga_beli;

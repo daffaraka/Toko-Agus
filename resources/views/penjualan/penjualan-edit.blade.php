@@ -54,6 +54,11 @@
                             </div>
 
                             <div class="form-group">
+                                <label for="">Tanggal Jatuh Tempo</label>
+                                <input type="date" name="tanggal_jatuh_tempo" class="form-control" required value="{{$penjualan->tanggal_jatuh_tempo}}">
+                            </div>
+
+                            <div class="form-group">
                                 <label for="">Jenis Pembayaran</label>
                                 <select type="text" name="jenis_pembayaran" class="form-control">
                                     <option value="Cicil">Cicil</option>

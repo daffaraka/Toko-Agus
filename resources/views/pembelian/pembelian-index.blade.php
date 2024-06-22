@@ -60,7 +60,7 @@
                                         <th>Jenis Pembayaran</th>
                                         <th>Total</th>
                                         <th>Sisa Pembayaran</th>
-
+                                        <th>Tanggal Jatuh Tempo</th>
                                         {{-- <th style="text-align: center">Status</th> --}}
                                         <th>Action</th>
                                     </tr>
@@ -76,7 +76,8 @@
                                                 {{-- {{$data->pembelianBarang->barang}} --}}
                                                 <ul>
                                                     @foreach ($data->pembelianBarang as $barang)
-                                                        <li>{{ $barang->barang->nama_barang }} - <b>( {{ $barang->qty }} )</b> -
+                                                        <li>{{ $barang->barang->nama_barang }} - <b>( {{ $barang->qty }}
+                                                                )</b> -
                                                             Rp.{{ number_format($barang->barang->harga_beli) }} </li>
                                                     @endforeach
                                                 </ul>
@@ -84,8 +85,9 @@
                                             </td>
 
                                             <td>{{ $data->jenis_pembayaran }}</td>
-                                            <td>Rp.{{ number_format($data->total_pembelian)  }}</td>
-                                            <td>Rp.{{ number_format($data->sisa_pembayaran)  }}</td>
+                                            <td>Rp.{{ number_format($data->total_pembelian) }}</td>
+                                            <td>Rp.{{ number_format($data->sisa_pembayaran) }}</td>
+                                            <td>Rp. {{ $data->tanggal_jatuh_tempo }}</td>
                                             <td>
                                                 <div class="d-flex">
                                                     <a href="{{ route('pembelian.edit', $data->id) }}"

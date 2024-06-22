@@ -49,6 +49,7 @@
                                         <th>Barang - Qty - Harga </th>
                                         <th>Total</th>
                                         <th>Sisa Pembayaran</th>
+                                        <th>Tanggal Jatuh Tempo</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -71,6 +72,7 @@
                                             </td>
                                             <td>Rp. {{ number_format($data->total_penjualan) }}</td>
                                             <td>Rp. {{ number_format($data->sisa_pembayaran) }}</td>
+                                            <td>Rp. {{ $data->tanggal_jatuh_tempo }}</td>
                                             <td>
                                                 <div class="d-flex">
                                                     <a href="{{ route('penjualan.edit', $data->id) }}"
